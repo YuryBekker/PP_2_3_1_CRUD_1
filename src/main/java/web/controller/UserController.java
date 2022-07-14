@@ -2,11 +2,11 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
-import web.service.UserServiceImpl;
 
 @Controller
 public class UserController {
@@ -18,19 +18,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping("/")
     public String allUsers(ModelMap modelMap) {
         modelMap.addAttribute("userList", userService.allUsers());
         return "users";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String editPage(@PathVariable long id, ModelMap modelMap) {
+    @GetMapping("/edit/{id}")
+    public String editPage(@PathVariable long id, Model modelMap) {
         modelMap.addAttribute("user", userService.getById(id));
         return "editPage";
     }
 
-    @PostMapping(value = "/edit")
+    @PostMapping("/edit")
     public String editUser(@ModelAttribute("user") User user) {
         userService.edit(user);
         return "redirect:/";
